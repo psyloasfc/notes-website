@@ -206,41 +206,161 @@ void main() {
 
       {title: "Implementation of Knapsack Problem", code: `#include <stdio.h>
 #include <conio.h>
-void main() {
-    int n, i, j;
-    float weight[20], profit[20], ratio[20];
-    float capacity, total_profit = 0, temp;
+
+#define MAX 100
+
+void merge(float profit[], float weight[], float value[], int index[], int left, int mid, int right)
+{
+    float Lp[MAX], Lw[MAX], Lv[MAX];
+    int Li[MAX];
+    float Rp[MAX], Rw[MAX], Rv[MAX];
+    int Ri[MAX];
+    int n1, n2, i, j, k;
+
+    n1 = mid - left + 1;
+    n2 = right - mid;
+
+    for (i = 0; i < n1; i++) {
+        Lp[i] = profit[left + i];
+        Lw[i] = weight[left + i];
+        Lv[i] = value[left + i];
+        Li[i] = index[left + i];
+    }
+    for (j = 0; j < n2; j++) {
+        Rp[j] = profit[mid + 1 + j];
+        Rw[j] = weight[mid + 1 + j];
+        Rv[j] = value[mid + 1 + j];
+        Ri[j] = index[mid + 1 + j];
+    }
+
+    i = 0;
+    j = 0;
+    k = left;
+
+    while (i < n1 && j < n2) {
+        if (Lp[i] >= Rp[j]) {
+            profit[k] = Lp[i];
+            weight[k] = Lw[i];
+            value[k] = Lv[i];
+            index[k] = Li[i];
+            i++;
+        } else {
+            profit[k] = Rp[j];
+            weight[k] = Rw[j];
+            value[k] = Rv[j];
+            index[k] = Ri[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        profit[k] = Lp[i];
+        weight[k] = Lw[i];
+        value[k] = Lv[i];
+        index[k] = Li[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        profit[k] = Rp[j];
+        weight[k] = Rw[j];
+        value[k] = Rv[j];
+        index[k] = Ri[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(float profit[], float weight[], float value[], int index[], int left, int right)
+{
+    int mid;
+    if (left < right) {
+        mid = (left + right) / 2;
+        mergeSort(profit, weight, value, index, left, mid);
+        mergeSort(profit, weight, value, index, mid + 1, right);
+        merge(profit, weight, value, index, left, mid, right);
+    }
+}
+
+void main()
+{
+    int n, i;
+    float weight[MAX], value[MAX], profit[MAX], taken[MAX];
+    float cap, totalValue = 0.0, totalWeight = 0.0, totalProfit = 0.0, fraction;
+    int index[MAX];
+
     clrscr();
+
     printf("Enter number of items: ");
     scanf("%d", &n);
-    for(i = 0; i < n; i++) {
-        printf("\\nEnter profit and weight of item %d: ", i + 1);
-        scanf("%f%f", &profit[i], &weight[i]);
-        ratio[i] = profit[i] / weight[i];
+
+    printf("Enter weights:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%f", &weight[i]);
+        index[i] = i;
+        taken[i] = 0.0;
     }
-    printf("\\nEnter capacity of knapsack: ");
-    scanf("%f", &capacity);
-    for(i = 0; i < n - 1; i++) {
-        for(j = i + 1; j < n; j++) {
-            if(ratio[i] < ratio[j]) {
-                temp = ratio[i]; ratio[i] = ratio[j]; ratio[j] = temp;
-                temp = profit[i]; profit[i] = profit[j]; profit[j] = temp;
-                temp = weight[i]; weight[i] = weight[j]; weight[j] = temp;
-            }
-        }
+
+    printf("Enter values:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%f", &value[i]);
     }
-    for(i = 0; i < n; i++) {
-        if(weight[i] <= capacity) {
-            total_profit += profit[i];
-            capacity -= weight[i];
-        } else {
-            total_profit += ratio[i] * capacity;
+
+    for (i = 0; i < n; i++) {
+        if (weight[i] != 0)
+            profit[i] = value[i] / weight[i];
+        else
+            profit[i] = 0;
+    }
+
+    mergeSort(profit, weight, value, index, 0, n - 1);
+
+    printf("\nSorted by Profit (Value/Weight) Descending:\n");
+    printf("Profit\tWeight\tValue\n");
+    for (i = 0; i < n; i++) {
+        printf("%.2f\t%.2f\t%.2f\n", profit[i], weight[i], value[i]);
+    }
+
+    printf("\nEnter capacity of knapsack: ");
+    scanf("%f", &cap);
+
+    for (i = 0; i < n; i++) {
+        if (cap == 0)
             break;
+
+        if (weight[i] <= cap) {
+            cap -= weight[i];
+            totalValue += value[i];
+            totalWeight += weight[i];
+            totalProfit += profit[i];
+            taken[index[i]] = 1.0;
+        } else {
+            fraction = cap / weight[i];
+            totalValue += value[i] * fraction;
+            totalWeight += cap;
+            totalProfit += profit[i] * fraction;
+            taken[index[i]] = fraction;
+            cap = 0;
         }
     }
-    printf("\\nMaximum profit = %.2f", total_profit);
+
+    printf("\nItems Taken:\n");
+    printf("Item#\tFraction\tWeight\tValue\tProfit\n");
+    for (i = 0; i < n; i++) {
+        if (taken[i] > 0) {
+            printf("%d\t%.2f\t\t%.2f\t%.2f\t%.2f\n", i + 1, taken[i], weight[i], value[i], profit[i]);
+        }
+    }
+
+    printf("\nTotal weight taken = %.2f", totalWeight);
+    printf("\nTotal value in knapsack = %.2f", totalValue);
+    printf("\nTotal profit (sum of ratios) = %.2f\n", totalProfit);
+
     getch();
-}`},
+}
+`},
 
       {title: "Implementation of Longest Common Subsequence Problem", code: `#include <stdio.h>
 #include <string.h>
@@ -287,48 +407,78 @@ void main(){
       {title: "Implementation of All Pair Shortest Path Algorithm (Floyd Warshall)", code: `#include <stdio.h>
 #include <conio.h>
 #define INF 999
-void main(){
-    int V,i,j,k;
+
+void main() {
+    int V, E, i, j, k, u, v, w, count = 0;
     int dist[10][10];
     clrscr();
-    printf("Enter number of vertices: ");
-    scanf("%d",&V);
-    printf("Enter adjacency matrix (use 999 for INF):\\n");
-    for(i=0;i<V;i++)
-        for(j=0;j<V;j++)
-            scanf("%d",&dist[i][j]);
-    for(k=0;k<V;k++)
-        for(i=0;i<V;i++)
-            for(j=0;j<V;j++)
-                if(dist[i][k]+dist[k][j]<dist[i][j])
-                    dist[i][j]=dist[i][k]+dist[k][j];
-    printf("Shortest distances:\\n");
-    for(i=0;i<V;i++){
-        for(j=0;j<V;j++){
-            if(dist[i][j]==INF) printf("INF ");
-            else printf("%d ",dist[i][j]);
+
+    printf("Enter number of vertices and edges: ");
+    scanf("%d %d", &V, &E);
+
+    // Initialize distance matrix
+    for (i = 0; i < V; i++) {
+        for (j = 0; j < V; j++) {
+            if (i == j)
+                dist[i][j] = 0;
+            else
+                dist[i][j] = INF;
         }
-        printf("\\n");
     }
+
+    printf("Enter the edges as (u v w) with 0-based vertices:\n");
+    for (i = 0; i < E; i++) {
+        scanf("%d %d %d", &u, &v, &w);
+        dist[u][v] = w;
+    }
+
+    // Floyd–Warshall algorithm
+    for (k = 0; k < V; k++) {
+        for (i = 0; i < V; i++) {
+            for (j = 0; j < V; j++) {
+                count++;
+                if (dist[i][k] + dist[k][j] < dist[i][j])
+                    dist[i][j] = dist[i][k] + dist[k][j];
+            }
+        }
+    }
+
+    printf("\nShortest distances between every pair of vertices:\n");
+    for (i = 0; i < V; i++) {
+        for (j = 0; j < V; j++) {
+            if (dist[i][j] == INF)
+                printf("INF ");
+            else
+                printf("%d ", dist[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\nTotal count of core operations: %d", count);
     getch();
-}`},
+}
+`},
 
       {title: "Implementation of 8 Queen’s Problem", code: `#include <stdio.h>
 #include <conio.h>
 #include <math.h>
-#include <stdlib.h>
+
 int board[20];
 int N;
-int place(int row, int col) {
+
+int place(int row, int col)
+{
     int i;
     for (i = 0; i < row; i++)
         if (board[i] == col || abs(board[i] - col) == abs(i - row))
             return 0;
     return 1;
 }
-void print() {
+
+void print()
+{
     int i, j;
-    printf("\\nSolution for %d-Queens:\\n", N);
+    printf("\nSolution:\n");
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
             if (board[i] == j)
@@ -336,10 +486,12 @@ void print() {
             else
                 printf(". ");
         }
-        printf("\\n");
+        printf("\n");
     }
 }
-void queen(int row) {
+
+void queen(int row)
+{
     int col;
     if (row == N) {
         print();
@@ -352,18 +504,16 @@ void queen(int row) {
         }
     }
 }
-void main() {
-    int t, i;
+
+void main()
+{
     clrscr();
-    printf("Enter how many N-Queens problems to solve: ");
-    scanf("%d", &t);
-    for (i = 0; i < t; i++) {
-        printf("\\nEnter N (number of queens for problem %d): ", i + 1);
-        scanf("%d", &N);
-        queen(0);
-    }
+    printf("Enter the number of queens (N): ");
+    scanf("%d", &N);
+    queen(0);
     getch();
-}`},
+}
+`},
 
       {title: "Implementation of Naïve String-Matching Algorithm", code: `#include <stdio.h>
 #include <string.h>
