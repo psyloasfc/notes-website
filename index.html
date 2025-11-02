@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Code Notes Collection</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f4f6f8;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 { color: #333; }
+    button {
+      display: block;
+      margin: 12px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { background-color: #0056b3; }
+    pre {
+      text-align: left;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 8px;
+      width: 90%;
+      margin: 10px auto;
+      overflow-x: auto;
+      display: none;
+    }
+    .copy-btn {
+      background-color: #28a745;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Code Notes Collection</h1>
+  <div id="buttons"></div>
+
+  <script>
+    const notes = [
+      {title: "Implementation of Selection Sort", code: `#include <stdio.h>
+#include <conio.h>
+void main() {
+    int a[50], n, i, j, min, temp;
+    clrscr();
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements:\\n");
+    for (i = 0; i < n; i++) scanf("%d", &a[i]);
+    for (i = 0; i < n - 1; i++) {
+        min = i;
+        for (j = i + 1; j < n; j++)
+            if (a[j] < a[min]) min = j;
+        temp = a[i]; a[i] = a[min]; a[min] = temp;
+    }
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++) printf("%d ", a[i]);
+    getch();
+}`},
+
+      {title: "Implementation of Insertion Sort", code: `#include <stdio.h>
+#include <conio.h>
+void main() {
+    int a[50], n, i, j, key;
+    clrscr();
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements:\\n");
+    for (i = 0; i < n; i++) scanf("%d", &a[i]);
+    for (i = 1; i < n; i++) {
+        key = a[i];
+        j = i - 1;
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+    }
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++) printf("%d ", a[i]);
+    getch();
+}`},
+
+      {title: "Implementation of Binary Search", code: `#include <stdio.h>
+#include <conio.h>
+void main() {
+    int a[50], n, x, low, high, mid, flag = 0, i;
+    clrscr();
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter sorted elements:\\n");
+    for (i = 0; i < n; i++) scanf("%d", &a[i]);
+    printf("Enter element to search: ");
+    scanf("%d", &x);
+    low = 0; high = n - 1;
+    while (low <= high) {
+        mid = (low + high) / 2;
+        if (a[mid] == x) { flag = 1; break; }
+        else if (a[mid] < x) low = mid + 1;
+        else high = mid - 1;
+    }
+    if (flag) printf("Element found at position %d", mid + 1);
+    else printf("Element not found");
+    getch();
+}`},
+
+      {title: "Implementation of Linear Search", code: `#include <stdio.h>
+#include <conio.h>
+void main() {
+    int a[50], n, x, i, flag = 0;
+    clrscr();
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements:\\n");
+    for (i = 0; i < n; i++) scanf("%d", &a[i]);
+    printf("Enter element to search: ");
+    scanf("%d", &x);
+    for (i = 0; i < n; i++)
+        if (a[i] == x) { flag = 1; break; }
+    if (flag) printf("Element found at position %d", i + 1);
+    else printf("Element not found");
+    getch();
+}`},
+
+      {title: "Implementation of Merge Sort", code: `#include <stdio.h>
+#include <conio.h>
+int a[50];
+void merge(int l, int m, int r) {
+    int i, j, k, n1 = m - l + 1, n2 = r - m;
+    int L[25], R[25];
+    for (i = 0; i < n1; i++) L[i] = a[l + i];
+    for (j = 0; j < n2; j++) R[j] = a[m + 1 + j];
+    i = 0; j = 0; k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) a[k++] = L[i++];
+        else a[k++] = R[j++];
+    }
+    while (i < n1) a[k++] = L[i++];
+    while (j < n2) a[k++] = R[j++];
+}
+void mergesort(int l, int r) {
+    if (l < r) {
+        int m = (l + r) / 2;
+        mergesort(l, m);
+        mergesort(m + 1, r);
+        merge(l, m, r);
+    }
+}
+void main() {
+    int n, i;
+    clrscr();
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements:\\n");
+    for (i = 0; i < n; i++) scanf("%d", &a[i]);
+    mergesort(0, n - 1);
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++) printf("%d ", a[i]);
+    getch();
+}`},
+
+      {title: "Implementation of Quick Sort", code: `#include <stdio.h>
+#include <conio.h>
+int a[50];
+int partition(int low, int high) {
+    int pivot = a[high], i = low - 1, j, temp;
+    for (j = low; j < high; j++) {
+        if (a[j] < pivot) {
+            i++;
+            temp = a[i]; a[i] = a[j]; a[j] = temp;
+        }
+    }
+    temp = a[i + 1]; a[i + 1] = a[high]; a[high] = temp;
+    return i + 1;
+}
+void quicksort(int low, int high) {
+    if (low < high) {
+        int pi = partition(low, high);
+        quicksort(low, pi - 1);
+        quicksort(pi + 1, high);
+    }
+}
+void main() {
+    int n, i;
+    clrscr();
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements:\\n");
+    for (i = 0; i < n; i++) scanf("%d", &a[i]);
+    quicksort(0, n - 1);
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++) printf("%d ", a[i]);
+    getch();
+}`},
+
+      {title: "Implementation of Knapsack Problem", code: `#include <stdio.h>
+#include <conio.h>
+void main() {
+    int n, i, j;
+    float weight[20], profit[20], ratio[20];
+    float capacity, total_profit = 0, temp;
+    clrscr();
+    printf("Enter number of items: ");
+    scanf("%d", &n);
+    for(i = 0; i < n; i++) {
+        printf("\\nEnter profit and weight of item %d: ", i + 1);
+        scanf("%f%f", &profit[i], &weight[i]);
+        ratio[i] = profit[i] / weight[i];
+    }
+    printf("\\nEnter capacity of knapsack: ");
+    scanf("%f", &capacity);
+    for(i = 0; i < n - 1; i++) {
+        for(j = i + 1; j < n; j++) {
+            if(ratio[i] < ratio[j]) {
+                temp = ratio[i]; ratio[i] = ratio[j]; ratio[j] = temp;
+                temp = profit[i]; profit[i] = profit[j]; profit[j] = temp;
+                temp = weight[i]; weight[i] = weight[j]; weight[j] = temp;
+            }
+        }
+    }
+    for(i = 0; i < n; i++) {
+        if(weight[i] <= capacity) {
+            total_profit += profit[i];
+            capacity -= weight[i];
+        } else {
+            total_profit += ratio[i] * capacity;
+            break;
+        }
+    }
+    printf("\\nMaximum profit = %.2f", total_profit);
+    getch();
+}`},
+
+      {title: "Implementation of Longest Common Subsequence Problem", code: `#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+int max(int a,int b){ return (a>b)?a:b; }
+void main(){
+    char X[50],Y[50],LCS[50];
+    int L[50][50],m,n,i,j,index;
+    clrscr();
+    printf("Enter first string: ");
+    gets(X);
+    printf("Enter second string: ");
+    gets(Y);
+    m=strlen(X);
+    n=strlen(Y);
+    for(i=0;i<=m;i++){
+        for(j=0;j<=n;j++){
+            if(i==0||j==0)
+                L[i][j]=0;
+            else if(X[i-1]==Y[j-1])
+                L[i][j]=L[i-1][j-1]+1;
+            else
+                L[i][j]=max(L[i-1][j],L[i][j-1]);
+        }
+    }
+    index=L[m][n];
+    LCS[index]='\\0';
+    i=m; j=n;
+    while(i>0 && j>0){
+        if(X[i-1]==Y[j-1]){
+            LCS[index-1]=X[i-1];
+            i--; j--; index--;
+        }
+        else if(L[i-1][j]>L[i][j-1])
+            i--;
+        else
+            j--;
+    }
+    printf("\\nLength of LCS = %d",L[m][n]);
+    printf("\\nLCS = %s",LCS);
+    getch();
+}`},
+
+      {title: "Implementation of All Pair Shortest Path Algorithm (Floyd Warshall)", code: `#include <stdio.h>
+#include <conio.h>
+#define INF 999
+void main(){
+    int V,i,j,k;
+    int dist[10][10];
+    clrscr();
+    printf("Enter number of vertices: ");
+    scanf("%d",&V);
+    printf("Enter adjacency matrix (use 999 for INF):\\n");
+    for(i=0;i<V;i++)
+        for(j=0;j<V;j++)
+            scanf("%d",&dist[i][j]);
+    for(k=0;k<V;k++)
+        for(i=0;i<V;i++)
+            for(j=0;j<V;j++)
+                if(dist[i][k]+dist[k][j]<dist[i][j])
+                    dist[i][j]=dist[i][k]+dist[k][j];
+    printf("Shortest distances:\\n");
+    for(i=0;i<V;i++){
+        for(j=0;j<V;j++){
+            if(dist[i][j]==INF) printf("INF ");
+            else printf("%d ",dist[i][j]);
+        }
+        printf("\\n");
+    }
+    getch();
+}`},
+
+      {title: "Implementation of 8 Queen’s Problem", code: `#include <stdio.h>
+#include <conio.h>
+#include <math.h>
+#include <stdlib.h>
+int board[20];
+int N;
+int place(int row, int col) {
+    int i;
+    for (i = 0; i < row; i++)
+        if (board[i] == col || abs(board[i] - col) == abs(i - row))
+            return 0;
+    return 1;
+}
+void print() {
+    int i, j;
+    printf("\\nSolution for %d-Queens:\\n", N);
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            if (board[i] == j)
+                printf("Q ");
+            else
+                printf(". ");
+        }
+        printf("\\n");
+    }
+}
+void queen(int row) {
+    int col;
+    if (row == N) {
+        print();
+        return;
+    }
+    for (col = 0; col < N; col++) {
+        if (place(row, col)) {
+            board[row] = col;
+            queen(row + 1);
+        }
+    }
+}
+void main() {
+    int t, i;
+    clrscr();
+    printf("Enter how many N-Queens problems to solve: ");
+    scanf("%d", &t);
+    for (i = 0; i < t; i++) {
+        printf("\\nEnter N (number of queens for problem %d): ", i + 1);
+        scanf("%d", &N);
+        queen(0);
+    }
+    getch();
+}`},
+
+      {title: "Implementation of Naïve String-Matching Algorithm", code: `#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+void main(){
+    char txt[100],pat[50];
+    int N,M,i,j,found=0;
+    clrscr();
+    printf("Enter text: ");
+    gets(txt);
+    printf("Enter pattern: ");
+    gets(pat);
+    N=strlen(txt); M=strlen(pat);
+    for(i=0;i<=N-M;i++){
+        for(j=0;j<M;j++)
+            if(txt[i+j]!=pat[j]) break;
+        if(j==M){
+            printf("Pattern found at index %d\\n",i);
+            found=1;
+        }
+    }
+    if(!found) printf("Pattern not found");
+    getch();
+}`}
+    ];
+
+    const container = document.getElementById("buttons");
+    notes.forEach((note, i) => {
+      const btn = document.createElement("button");
+      btn.textContent = note.title;
+      const codeBlock = document.createElement("pre");
+      codeBlock.id = `note${i}`;
+      codeBlock.textContent = note.code;
+      const copyBtn = document.createElement("button");
+      copyBtn.textContent = "Copy Code";
+      copyBtn.className = "copy-btn";
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(note.code);
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => copyBtn.textContent = "Copy Code", 1500);
+      };
+      btn.onclick = () => {
+        const showing = codeBlock.style.display === "block";
+        codeBlock.style.display = showing ? "none" : "block";
+        copyBtn.style.display = showing ? "none" : "block";
+      };
+      container.appendChild(btn);
+      container.appendChild(codeBlock);
+      container.appendChild(copyBtn);
+    });
+  </script>
+</body>
+</html>
