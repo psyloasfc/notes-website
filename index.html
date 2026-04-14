@@ -1,569 +1,430 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Code Notes Collection</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #f4f6f8;
-      text-align: center;
-      padding: 30px;
-    }
-    h1 { color: #333; }
-    button {
-      display: block;
-      margin: 12px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover { background-color: #0056b3; }
-    pre {
-      text-align: left;
-      background-color: #272822;
-      color: #f8f8f2;
-      padding: 10px;
-      border-radius: 8px;
-      width: 90%;
-      margin: 10px auto;
-      overflow-x: auto;
-      display: none;
-    }
-    .copy-btn {
-      background-color: #28a745;
-      font-size: 14px;
-      margin-top: 5px;
-      display: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>DSIP Lab Experiments</title>
+<style>
+body {font-family: Arial; background:#f4f4f4; padding:20px;}
+h1{text-align:center;}
+h2{margin-top:40px;}
+.code-box{
+background:#1e1e1e;
+color:#00ff88;
+padding:15px;
+border-radius:10px;
+margin-bottom:30px;
+position:relative;
+white-space:pre-wrap;
+}
+button{
+position:absolute;
+top:10px;
+right:10px;
+background:#00c853;
+color:white;
+border:none;
+padding:6px 12px;
+border-radius:5px;
+cursor:pointer;
+}
+</style>
 </head>
 <body>
-  <h1>My Code Notes Collection</h1>
-  <div id="buttons"></div>
 
-  <script>
-    const notes = [
-      {title: "Implementation of Selection Sort", code: `#include <stdio.h>
-#include <conio.h>
-void main() {
-    int a[50], n, i, j, min, temp;
-    clrscr();
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements:\\n");
-    for (i = 0; i < n; i++) scanf("%d", &a[i]);
-    for (i = 0; i < n - 1; i++) {
-        min = i;
-        for (j = i + 1; j < n; j++)
-            if (a[j] < a[min]) min = j;
-        temp = a[i]; a[i] = a[min]; a[min] = temp;
-    }
-    printf("Sorted array: ");
-    for (i = 0; i < n; i++) printf("%d ", a[i]);
-    getch();
-}`},
+<h1>DSIP Lab Experiments</h1>
 
-      {title: "Implementation of Insertion Sort", code: `#include <stdio.h>
-#include <conio.h>
-void main() {
-    int a[50], n, i, j, key;
-    clrscr();
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements:\\n");
-    for (i = 0; i < n; i++) scanf("%d", &a[i]);
-    for (i = 1; i < n; i++) {
-        key = a[i];
-        j = i - 1;
-        while (j >= 0 && a[j] > key) {
-            a[j + 1] = a[j];
-            j--;
-        }
-        a[j + 1] = key;
-    }
-    printf("Sorted array: ");
-    for (i = 0; i < n; i++) printf("%d ", a[i]);
-    getch();
-}`},
+<!-- EXP 1 -->
+<h2>Experiment 1: Sampling Theorem</h2>
+<div class="code-box" id="code1">
 
-      {title: "Implementation of Binary Search", code: `#include <stdio.h>
-#include <conio.h>
-void main() {
-    int a[50], n, x, low, high, mid, flag = 0, i;
-    clrscr();
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    printf("Enter sorted elements:\\n");
-    for (i = 0; i < n; i++) scanf("%d", &a[i]);
-    printf("Enter element to search: ");
-    scanf("%d", &x);
-    low = 0; high = n - 1;
-    while (low <= high) {
-        mid = (low + high) / 2;
-        if (a[mid] == x) { flag = 1; break; }
-        else if (a[mid] < x) low = mid + 1;
-        else high = mid - 1;
-    }
-    if (flag) printf("Element found at position %d", mid + 1);
-    else printf("Element not found");
-    getch();
-}`},
+clc;
+t=0:0.001:1
+f0=5;
+y = sin(2 * pi * f0 * t);
 
-      {title: "Implementation of Linear Search", code: `#include <stdio.h>
-#include <conio.h>
-void main() {
-    int a[50], n, x, i, flag = 0;
-    clrscr();
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements:\\n");
-    for (i = 0; i < n; i++) scanf("%d", &a[i]);
-    printf("Enter element to search: ");
-    scanf("%d", &x);
-    for (i = 0; i < n; i++)
-        if (a[i] == x) { flag = 1; break; }
-    if (flag) printf("Element found at position %d", i + 1);
-    else printf("Element not found");
-    getch();
-}`},
+f1=6
+t1=0:1/f1:1
 
-      {title: "Implementation of Merge Sort", code: `#include <stdio.h>
-#include <conio.h>
-int a[50];
-void merge(int l, int m, int r) {
-    int i, j, k, n1 = m - l + 1, n2 = r - m;
-    int L[25], R[25];
-    for (i = 0; i < n1; i++) L[i] = a[l + i];
-    for (j = 0; j < n2; j++) R[j] = a[m + 1 + j];
-    i = 0; j = 0; k = l;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) a[k++] = L[i++];
-        else a[k++] = R[j++];
-    }
-    while (i < n1) a[k++] = L[i++];
-    while (j < n2) a[k++] = R[j++];
+y1= sin(2*pi*f0*t1)
+
+
+f2=10
+t2=0:1/f2   :1
+
+y2= sin(2*pi*f0*t2)
+
+
+f3=20
+t3=0:1/f3:1
+
+y3= sin(2*pi*f0*t3)
+
+
+subplot(4, 1, 1);
+plot(t1, y1); hold on;
+stem(t1, y1, 'r', 'filled');
+title('Sine Wave at 6 Hz');
+xlabel('Time (s)'); ylabel('Amplitude');
+grid on; hold off;
+
+subplot(4, 1, 2);
+plot(t2, y2); hold on;
+stem(t2, y2, 'r', 'filled');
+title('Sine Wave at 10 Hz');
+xlabel('Time (s)'); ylabel('Amplitude');
+grid on; hold off;
+
+subplot(4, 1, 3);
+plot(t3, y3); hold on;
+stem(t3, y3, 'r', 'filled');
+title('Sine Wave at 20 Hz');
+xlabel('Time (s)'); ylabel('Amplitude');
+grid on; hold off;
+
+subplot(4, 1, 4);
+plot(t, y); hold on;
+
+title('Original');
+xlabel('Time (s)'); ylabel('Amplitude');
+grid on; hold off;
+<button onclick="copyCode('code1', this)">Copy</button>
+</div>
+
+<!-- EXP 2 -->
+<h2>Experiment 2: Linear Convolution</h2>
+<div class="code-box" id="code2">
+
+clc;
+clear;
+close all;
+x = [1 2 3 4]; % Input signal x(n)
+h = [1 1 1]; % Impulse response h(n)
+Nx = length(x);
+Nh = length(h);
+Ny = Nx + Nh - 1;
+y_manual = zeros(1, Ny);
+for n = 1:Ny
+for k = 1:Nx
+if (n - k + 1 > 0) && (n - k + 1 <= Nh)
+y_manual(n) = y_manual(n) + x(k) * h(n - k + 1);
+end
+end
+end
+y_builtin = conv(x, h);
+disp('Manual Convolution Output:');
+disp(y_manual);
+disp('MATLAB conv() Output:');
+disp(y_builtin);
+% Plot signals
+n_x = 0:Nx-1;
+n_h = 0:Nh-1;
+n_y = 0:Ny-1;
+figure;
+subplot(3,1,1);
+stem(n_x, x, 'filled');
+title('Input Signal x(n)');
+xlabel('n'); ylabel('Amplitude');
+grid on;
+subplot(3,1,2);
+stem(n_h, h, 'filled');
+title('Impulse Response h(n)');
+xlabel('n'); ylabel('Amplitude');
+grid on;
+subplot(3,1,3);
+stem(n_y, y_builtin, 'filled');
+title('Output Signal y(n) = x(n) * h(n)');
+xlabel('n'); ylabel('Amplitude');
+grid on;
+<button onclick="copyCode('code2', this)">Copy</button>
+</div>
+
+<!-- EXP 3 -->
+<h2>Experiment 3: DFT and IDFT</h2>
+<div class="code-box" id="code3">
+clc
+xn=[1,2,3,4]
+N=length(xn)
+k=0:N-1
+Xk=zeros(1,N)
+for k=0:N-1
+for n=0:N-1
+Xk(k+1)=Xk(k+1)+(xn(n+1)*exp(-1j*2*pi*k*n/N))
+end
+end
+disp(Xk)
+ixn=zeros(1,N)
+for n=0:N-1
+for k=0:N-1
+ixn(n+1) = ixn(n+1) + (Xk(k+1) * exp(1j*2*pi*k*n/N))/N;
+end
+end
+disp(ixn)
+<button onclick="copyCode('code3', this)">Copy</button>
+</div>
+
+<!-- EXP 4 -->
+<h2>Experiment 4: Image Processing</h2>
+<div class="code-box" id="code4">
+clc;
+close all;
+clear variables;
+A = imread('meow.jpg');
+figure;
+subplot(2,4,1);
+imshow(A);
+title('Billi (RGB)');
+subplot(2,4,2);
+grayA = rgb2gray(A);
+imshow(grayA);
+title('Grayscale Billi');
+subplot(2,4,3);
+HSV = rgb2hsv(A);
+hueColor = cat(3, HSV(:,:,1), ones(size(HSV,1),size(HSV,2)), ones(size(HSV,1),size(HSV,2)));
+imshow(hsv2rgb(hueColor));
+title('Hue (HSV)');
+% Convert HSV back to RGB and display
+subplot(2,4,4);
+rgbA = hsv2rgb(HSV);
+imshow(rgbA);
+title('Back to RGB Billi');
+resizedA=imresize(rgbA,0.7);
+subplot(2,4,5);
+imshow(resizedA);
+title('Resized Billi (70%)');
+rotatedA=imrotate(resizedA,65);
+subplot(2,4,6);
+imshow(rotatedA);
+title('Rotated Billi (65 degrees)')<button onclick="copyCode('code4', this)">Copy</button>
+</div>
+
+<!-- EXP 5 -->
+<h2>Experiment 5: DFT vs DCT</h2>
+<div class="code-box" id="code5">
+clc;
+clear;
+close all;
+% Read Image
+img = imread('cameraman.tif');
+img = im2double(img);
+figure;
+imshow(img);
+title('Original Image');
+%% ----------- DFT -----------
+F = fft2(img);
+F_shift = fftshift(F);
+magnitude_spectrum = log(1 + abs(F_shift));
+figure;
+imshow(magnitude_spectrum,[]);
+title('DFT Magnitude Spectrum');
+% Inverse DFT
+img_dft_recon = real(ifft2(F));
+figure;
+imshow(img_dft_recon);
+title('Reconstructed Image using IDFT');
+%% ----------- DCT -----------
+C = dct2(img);
+figure;
+imshow(log(1+abs(C)),[]);
+title('DCT Coefficients');
+% Inverse DCT
+img_dct_recon = idct2(C);
+figure;
+imshow(img_dct_recon);
+title('Reconstructed Image using IDCT');
+%% Energy Comparison
+dft_energy = sum(abs(F(:)).^2);
+dct_energy = sum(abs(C(:)).^2);
+disp(['Total DFT Energy: ', num2str(dft_energy)]);
+disp(['Total DCT Energy: ', num2str(dct_energy)]);<button onclick="copyCode('code5', this)">Copy</button>
+</div>
+
+<!-- EXP 6 -->
+<h2>Experiment 6: Histogram Processing</h2>
+<div class="code-box" id="code6">
+clc;
+clear;
+close all;
+
+% Read the input image
+img = imread('cameraman.tif');
+
+% Convert to grayscale if needed
+if size(img,3)==3
+img = rgb2gray(img);
+end
+
+% Histogram Equalization
+eq_img = histeq(img);
+
+% Read reference image for histogram specification
+ref = imread('pout.tif');
+
+if size(ref,3)==3
+ref = rgb2gray(ref);
+end
+
+% Histogram Specification (Matching)
+spec_img = imhistmatch(img, ref);
+
+% Display Images
+figure;
+
+subplot(3,2,1)
+imshow(img)
+title('Original Image')
+
+subplot(3,2,2)
+imhist(img)
+title('Histogram of Original Image')
+
+subplot(3,2,3)
+imshow(eq_img)
+title('Histogram Equalized Image')
+
+subplot(3,2,4)
+imhist(eq_img)
+title('Histogram after Equalization')
+
+subplot(3,2,5)
+imshow(spec_img)
+title('Histogram Specified Image')
+
+subplot(3,2,6)
+imhist(spec_img)
+title('Histogram after Specification')
+<button onclick="copyCode('code6', this)">Copy</button>
+</div>
+
+<!-- EXP 7A -->
+<h2>Experiment 7A: Image Smoothing with Noise</h2>
+<div class="code-box" id="code7a">
+clear all;
+close all;
+I=imread('cameraman.tif');
+k=imnoise(I,'gaussian',0,0.01);
+B=1/9*[1 1 1;1 1 1 ; 1 1 1];
+[X,Y]=size(k);
+for i=2:1:X-2
+    for j=2:1:Y-2
+     g(i,j)=(k(i-1,j-1)*B(1,1)+k(i-1,j)*B(1,2)+k(i-1,j+1)*B(1,3)+k(i,j- 1)*B(2,1)+k(i,j)*B(2,2)+k(i,j+1)*B(2,3)+k(i+1,j-1)*B(3,1)+k(i+1,j)*B(3,2)+k(i+1,j+1)*B(3,3));
+    end
+end
+ 
+w1=fspecial('average',[3,3]);
+y1=imfilter(k,w1);
+
+subplot(3,3,1),imshow(I),title('Original Image')
+subplot(3,3,2),imshow(y1),title('Averaging Image')
+subplot(3,3,3),imshow(k),title('Noisy Image')
+subplot(3,3,4),imshow(g),title(' Smoothed Image')
+subplot(3,3,7),imhist(g),title('Histogram of Smoothed Image')
+subplot(3,3,6),imhist(k),title('Histogram of Noisy Image')
+subplot(3,3,5),imhist(I),title('Histogram of Original Image')
+
+<button onclick="copyCode('code7a', this)">Copy</button>
+</div>
+
+<!-- EXP 7B -->
+<h2>Experiment 7B: Image Sharpening Techniques</h2>
+<div class="code-box" id="code7b">
+clear all;
+close all;
+
+I = imread('cameraman.tif');
+
+[x,y] = size(I);
+
+subplot(3,3,1);
+imshow(I);
+title('Original Image');
+
+% Unsharp Filter
+T_1 = fspecial('unsharp');
+R_u = imfilter(I, T_1, 'replicate');
+subplot(3,3,2);
+imshow(R_u);
+title('Unsharp Filter');
+
+% Sobel Filter
+T_s = fspecial('sobel');
+R_s = imfilter(I, T_s);
+subplot(3,3,3);
+imshow(R_s);
+title('Sobel Filter');
+
+% Prewitt Filter
+T_p = fspecial('prewitt');
+R_p = imfilter(I, T_p);
+subplot(3,3,4);
+imshow(R_p);
+title('Prewitt Filter');
+
+% Laplacian Filter
+T_l = fspecial('laplacian');
+R_l = imfilter(I, T_l);
+subplot(3,3,5);
+imshow(R_l);
+title('Laplacian Filter');
+
+% Gaussian Filter
+T_g = fspecial('gaussian',[3,3],0.2);
+R_g = imfilter(I, T_g);
+subplot(3,3,6);
+imshow(R_g);
+title('Gaussian Filter');
+
+<button onclick="copyCode('code7b', this)">Copy</button>
+</div>
+
+<!-- EXP 8 -->
+<h2>Experiment 8: Edge Detection</h2>
+<div class="code-box" id="code8">
+clc;
+clear all;
+close all;
+i = imread('circuit.tif');
+a = edge(i,'sobel');
+b = edge(i,'sobel','horizontal');
+c = edge(i,'sobel','vertical');
+d = edge(i,'prewitt');
+e = edge(i,'roberts');
+f = edge(i,'zerocross');
+g = edge(i,'log');
+h = edge(i,'prewitt','horizontal');
+p = edge(i,'prewitt','vertical');
+j = edge(i,'roberts');
+k = edge(i,'roberts');
+l = edge(i,'zerocross');
+m = edge(i,'zerocross');
+n = edge(i,'log');
+o = edge(i,'log');
+subplot(4,4,1);imshow(i);title('original image');
+subplot(4,4,2);imshow(a);title('sobel image');
+subplot(4,4,3);imshow(b);title('sobel horizontal image');
+subplot(4,4,4);imshow(c);title('sobel vertical image');
+subplot(4,4,5);imshow(d);title('prewitt image');
+subplot(4,4,6);imshow(e);title('roberts image');
+subplot(4,4,7);imshow(f);title('zerocross image');
+subplot(4,4,8);imshow(g);title('laplace of gaussian image');
+subplot(4,4,9);imshow(h);title('prewitt horizontal image');
+subplot(4,4,10);imshow(p);title('prewitt vertical image');
+subplot(4,4,11);imshow(j);title('roberts image');
+subplot(4,4,12);imshow(k);title('roberts image');
+subplot(4,4,13);imshow(l);title('zerocross image');
+subplot(4,4,14);imshow(m);title('zerocross image');
+subplot(4,4,15);imshow(n);title('log image');
+subplot(4,4,16);imshow(o);title('log image');
+<button onclick="copyCode('code8', this)">Copy</button>
+</div>
+
+<script>
+function copyCode(id, btn){
+const text=document.getElementById(id).innerText.replace("Copy","");
+navigator.clipboard.writeText(text);
+btn.innerText="Copied!";
+setTimeout(()=>btn.innerText="Copy",1500);
 }
-void mergesort(int l, int r) {
-    if (l < r) {
-        int m = (l + r) / 2;
-        mergesort(l, m);
-        mergesort(m + 1, r);
-        merge(l, m, r);
-    }
-}
-void main() {
-    int n, i;
-    clrscr();
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements:\\n");
-    for (i = 0; i < n; i++) scanf("%d", &a[i]);
-    mergesort(0, n - 1);
-    printf("Sorted array: ");
-    for (i = 0; i < n; i++) printf("%d ", a[i]);
-    getch();
-}`},
+</script>
 
-      {title: "Implementation of Quick Sort", code: `#include <stdio.h>
-#include <conio.h>
-int a[50];
-int partition(int low, int high) {
-    int pivot = a[high], i = low - 1, j, temp;
-    for (j = low; j < high; j++) {
-        if (a[j] < pivot) {
-            i++;
-            temp = a[i]; a[i] = a[j]; a[j] = temp;
-        }
-    }
-    temp = a[i + 1]; a[i + 1] = a[high]; a[high] = temp;
-    return i + 1;
-}
-void quicksort(int low, int high) {
-    if (low < high) {
-        int pi = partition(low, high);
-        quicksort(low, pi - 1);
-        quicksort(pi + 1, high);
-    }
-}
-void main() {
-    int n, i;
-    clrscr();
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements:\\n");
-    for (i = 0; i < n; i++) scanf("%d", &a[i]);
-    quicksort(0, n - 1);
-    printf("Sorted array: ");
-    for (i = 0; i < n; i++) printf("%d ", a[i]);
-    getch();
-}`},
-
-      {title: "Implementation of Knapsack Problem", code: `#include <stdio.h>
-#include <conio.h>
-
-#define MAX 100
-
-void merge(float profit[], float weight[], float value[], int index[], int left, int mid, int right)
-{
-    float Lp[MAX], Lw[MAX], Lv[MAX];
-    int Li[MAX];
-    float Rp[MAX], Rw[MAX], Rv[MAX];
-    int Ri[MAX];
-    int n1, n2, i, j, k;
-
-    n1 = mid - left + 1;
-    n2 = right - mid;
-
-    for (i = 0; i < n1; i++) {
-        Lp[i] = profit[left + i];
-        Lw[i] = weight[left + i];
-        Lv[i] = value[left + i];
-        Li[i] = index[left + i];
-    }
-    for (j = 0; j < n2; j++) {
-        Rp[j] = profit[mid + 1 + j];
-        Rw[j] = weight[mid + 1 + j];
-        Rv[j] = value[mid + 1 + j];
-        Ri[j] = index[mid + 1 + j];
-    }
-
-    i = 0;
-    j = 0;
-    k = left;
-
-    while (i < n1 && j < n2) {
-        if (Lp[i] >= Rp[j]) {
-            profit[k] = Lp[i];
-            weight[k] = Lw[i];
-            value[k] = Lv[i];
-            index[k] = Li[i];
-            i++;
-        } else {
-            profit[k] = Rp[j];
-            weight[k] = Rw[j];
-            value[k] = Rv[j];
-            index[k] = Ri[j];
-            j++;
-        }
-        k++;
-    }
-
-    while (i < n1) {
-        profit[k] = Lp[i];
-        weight[k] = Lw[i];
-        value[k] = Lv[i];
-        index[k] = Li[i];
-        i++;
-        k++;
-    }
-
-    while (j < n2) {
-        profit[k] = Rp[j];
-        weight[k] = Rw[j];
-        value[k] = Rv[j];
-        index[k] = Ri[j];
-        j++;
-        k++;
-    }
-}
-
-void mergeSort(float profit[], float weight[], float value[], int index[], int left, int right)
-{
-    int mid;
-    if (left < right) {
-        mid = (left + right) / 2;
-        mergeSort(profit, weight, value, index, left, mid);
-        mergeSort(profit, weight, value, index, mid + 1, right);
-        merge(profit, weight, value, index, left, mid, right);
-    }
-}
-
-void main()
-{
-    int n, i;
-    float weight[MAX], value[MAX], profit[MAX], taken[MAX];
-    float cap, totalValue = 0.0, totalWeight = 0.0, totalProfit = 0.0, fraction;
-    int index[MAX];
-
-    clrscr();
-
-    printf("Enter number of items: ");
-    scanf("%d", &n);
-
-    printf("Enter weights:\n");
-    for (i = 0; i < n; i++) {
-        scanf("%f", &weight[i]);
-        index[i] = i;
-        taken[i] = 0.0;
-    }
-
-    printf("Enter values:\n");
-    for (i = 0; i < n; i++) {
-        scanf("%f", &value[i]);
-    }
-
-    for (i = 0; i < n; i++) {
-        if (weight[i] != 0)
-            profit[i] = value[i] / weight[i];
-        else
-            profit[i] = 0;
-    }
-
-    mergeSort(profit, weight, value, index, 0, n - 1);
-
-    printf("\nSorted by Profit (Value/Weight) Descending:\n");
-    printf("Profit\tWeight\tValue\n");
-    for (i = 0; i < n; i++) {
-        printf("%.2f\t%.2f\t%.2f\n", profit[i], weight[i], value[i]);
-    }
-
-    printf("\nEnter capacity of knapsack: ");
-    scanf("%f", &cap);
-
-    for (i = 0; i < n; i++) {
-        if (cap == 0)
-            break;
-
-        if (weight[i] <= cap) {
-            cap -= weight[i];
-            totalValue += value[i];
-            totalWeight += weight[i];
-            totalProfit += profit[i];
-            taken[index[i]] = 1.0;
-        } else {
-            fraction = cap / weight[i];
-            totalValue += value[i] * fraction;
-            totalWeight += cap;
-            totalProfit += profit[i] * fraction;
-            taken[index[i]] = fraction;
-            cap = 0;
-        }
-    }
-
-    printf("\nItems Taken:\n");
-    printf("Item#\tFraction\tWeight\tValue\tProfit\n");
-    for (i = 0; i < n; i++) {
-        if (taken[i] > 0) {
-            printf("%d\t%.2f\t\t%.2f\t%.2f\t%.2f\n", i + 1, taken[i], weight[i], value[i], profit[i]);
-        }
-    }
-
-    printf("\nTotal weight taken = %.2f", totalWeight);
-    printf("\nTotal value in knapsack = %.2f", totalValue);
-    printf("\nTotal profit (sum of ratios) = %.2f\n", totalProfit);
-
-    getch();
-}
-`},
-
-      {title: "Implementation of Longest Common Subsequence Problem", code: `#include <stdio.h>
-#include <string.h>
-#include <conio.h>
-int max(int a,int b){ return (a>b)?a:b; }
-void main(){
-    char X[50],Y[50],LCS[50];
-    int L[50][50],m,n,i,j,index;
-    clrscr();
-    printf("Enter first string: ");
-    gets(X);
-    printf("Enter second string: ");
-    gets(Y);
-    m=strlen(X);
-    n=strlen(Y);
-    for(i=0;i<=m;i++){
-        for(j=0;j<=n;j++){
-            if(i==0||j==0)
-                L[i][j]=0;
-            else if(X[i-1]==Y[j-1])
-                L[i][j]=L[i-1][j-1]+1;
-            else
-                L[i][j]=max(L[i-1][j],L[i][j-1]);
-        }
-    }
-    index=L[m][n];
-    LCS[index]='\\0';
-    i=m; j=n;
-    while(i>0 && j>0){
-        if(X[i-1]==Y[j-1]){
-            LCS[index-1]=X[i-1];
-            i--; j--; index--;
-        }
-        else if(L[i-1][j]>L[i][j-1])
-            i--;
-        else
-            j--;
-    }
-    printf("\\nLength of LCS = %d",L[m][n]);
-    printf("\\nLCS = %s",LCS);
-    getch();
-}`},
-
-      {title: "Implementation of All Pair Shortest Path Algorithm (Floyd Warshall)", code: `#include <stdio.h>
-#include <conio.h>
-#define INF 999
-
-void main() {
-    int V, E, i, j, k, u, v, w, count = 0;
-    int dist[10][10];
-    clrscr();
-
-    printf("Enter number of vertices and edges: ");
-    scanf("%d %d", &V, &E);
-
-    // Initialize distance matrix
-    for (i = 0; i < V; i++) {
-        for (j = 0; j < V; j++) {
-            if (i == j)
-                dist[i][j] = 0;
-            else
-                dist[i][j] = INF;
-        }
-    }
-
-    printf("Enter the edges as (u v w) with 0-based vertices:\n");
-    for (i = 0; i < E; i++) {
-        scanf("%d %d %d", &u, &v, &w);
-        dist[u][v] = w;
-    }
-
-    // Floyd–Warshall algorithm
-    for (k = 0; k < V; k++) {
-        for (i = 0; i < V; i++) {
-            for (j = 0; j < V; j++) {
-                count++;
-                if (dist[i][k] + dist[k][j] < dist[i][j])
-                    dist[i][j] = dist[i][k] + dist[k][j];
-            }
-        }
-    }
-
-    printf("\nShortest distances between every pair of vertices:\n");
-    for (i = 0; i < V; i++) {
-        for (j = 0; j < V; j++) {
-            if (dist[i][j] == INF)
-                printf("INF ");
-            else
-                printf("%d ", dist[i][j]);
-        }
-        printf("\n");
-    }
-
-    printf("\nTotal count of core operations: %d", count);
-    getch();
-}
-`},
-
-      {title: "Implementation of 8 Queen’s Problem", code: `#include <stdio.h>
-#include <conio.h>
-#include <math.h>
-
-int board[20];
-int N;
-
-int place(int row, int col)
-{
-    int i;
-    for (i = 0; i < row; i++)
-        if (board[i] == col || abs(board[i] - col) == abs(i - row))
-            return 0;
-    return 1;
-}
-
-void print()
-{
-    int i, j;
-    printf("\nSolution:\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            if (board[i] == j)
-                printf("Q ");
-            else
-                printf(". ");
-        }
-        printf("\n");
-    }
-}
-
-void queen(int row)
-{
-    int col;
-    if (row == N) {
-        print();
-        return;
-    }
-    for (col = 0; col < N; col++) {
-        if (place(row, col)) {
-            board[row] = col;
-            queen(row + 1);
-        }
-    }
-}
-
-void main()
-{
-    clrscr();
-    printf("Enter the number of queens (N): ");
-    scanf("%d", &N);
-    queen(0);
-    getch();
-}
-`},
-
-      {title: "Implementation of Naïve String-Matching Algorithm", code: `#include <stdio.h>
-#include <string.h>
-#include <conio.h>
-void main(){
-    char txt[100],pat[50];
-    int N,M,i,j,found=0;
-    clrscr();
-    printf("Enter text: ");
-    gets(txt);
-    printf("Enter pattern: ");
-    gets(pat);
-    N=strlen(txt); M=strlen(pat);
-    for(i=0;i<=N-M;i++){
-        for(j=0;j<M;j++)
-            if(txt[i+j]!=pat[j]) break;
-        if(j==M){
-            printf("Pattern found at index %d\\n",i);
-            found=1;
-        }
-    }
-    if(!found) printf("Pattern not found");
-    getch();
-}`}
-    ];
-
-    const container = document.getElementById("buttons");
-    notes.forEach((note, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = note.title;
-      const codeBlock = document.createElement("pre");
-      codeBlock.id = `note${i}`;
-      codeBlock.textContent = note.code;
-      const copyBtn = document.createElement("button");
-      copyBtn.textContent = "Copy Code";
-      copyBtn.className = "copy-btn";
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(note.code);
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => copyBtn.textContent = "Copy Code", 1500);
-      };
-      btn.onclick = () => {
-        const showing = codeBlock.style.display === "block";
-        codeBlock.style.display = showing ? "none" : "block";
-        copyBtn.style.display = showing ? "none" : "block";
-      };
-      container.appendChild(btn);
-      container.appendChild(codeBlock);
-      container.appendChild(copyBtn);
-    });
-  </script>
 </body>
 </html>
