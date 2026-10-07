@@ -2,429 +2,502 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DSIP Lab Experiments</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Software Engineering — Library Management System</title>
 <style>
-body {font-family: Arial; background:#f4f4f4; padding:20px;}
-h1{text-align:center;}
-h2{margin-top:40px;}
-.code-box{
-background:#1e1e1e;
-color:#00ff88;
-padding:15px;
-border-radius:10px;
-margin-bottom:30px;
-position:relative;
-white-space:pre-wrap;
-}
-button{
-position:absolute;
-top:10px;
-right:10px;
-background:#00c853;
-color:white;
-border:none;
-padding:6px 12px;
-border-radius:5px;
-cursor:pointer;
-}
+:root{--bg:#0b1020;--card:#111827;--card2:#172033;--text:#f8fafc;--muted:#aab4c5;--accent:#8b5cf6;--accent2:#6d28d9;--border:#263247}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#080d19,#111827 55%,#1b1230);color:var(--text);min-height:100vh}
+header{padding:38px 7vw 25px;text-align:center}
+h1{margin:0 0 8px;font-size:32px}
+header p{margin:0;color:var(--muted);font-size:15px}
+.container{width:min(1100px,92%);margin:auto;padding-bottom:50px}
+.card{background:rgba(17,24,39,.88);border:1px solid var(--border);border-radius:16px;margin:20px 0;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.22)}
+.card-head{padding:18px 20px;background:rgba(23,32,51,.9);display:flex;align-items:center;justify-content:space-between;gap:15px}
+.card-head h2{margin:0;font-size:19px}
+.badge{font-size:12px;color:#ddd6fe;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.35);padding:6px 10px;border-radius:999px;white-space:nowrap}
+.code-wrap{padding:18px;position:relative}
+textarea{width:100%;height:360px;resize:vertical;background:#080d17;color:#dbeafe;border:1px solid #29364d;border-radius:10px;padding:16px;font:13px/1.55 Consolas,Monaco,monospace;outline:none}
+textarea:focus{border-color:var(--accent)}
+.actions{display:flex;gap:10px;margin-top:12px}
+button{border:0;border-radius:9px;padding:10px 15px;font-weight:700;cursor:pointer;background:var(--accent);color:white}
+button:hover{background:var(--accent2)}
+button.secondary{background:#263247}
+button.secondary:hover{background:#334155}
+.tip{margin:0 0 20px;padding:14px 17px;border-left:4px solid var(--accent);background:rgba(139,92,246,.08);border-radius:8px;color:#d8dee9;line-height:1.5}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 </style>
 </head>
 <body>
+<header>
+  <h1>Software Engineering — Library Management System</h1>
+  <p>Library Management System (LMS) • Experiments 3, 5, 6 & 7</p>
+</header>
+<main class="container">
+  <div class="tip">
+    <strong>How to use:</strong> Copy the code for the required experiment, open
+    <strong>draw.io / diagrams.net</strong>, choose <strong>Arrange → Insert → Mermaid</strong>,
+    paste the code, and insert the diagram.
+  </div>
+  
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 3 — DFD Level 0</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code1" spellcheck="false">flowchart LR
+    Member[Member]
+    Librarian[Librarian]
+    Admin[Administrator]
 
-<h1>DSIP Lab Experiments</h1>
+    System((Library Management System))
 
-<!-- EXP 1 -->
-<h2>Experiment 1: Sampling Theorem</h2>
-<div class="code-box" id="code1">
+    Member --&gt;|Login, Search Request, Borrow / Return Request| System
+    System --&gt;|Book Details, Availability, Due Dates &amp; Notifications| Member
 
-clc;
-t=0:0.001:1
-f0=5;
-y = sin(2 * pi * f0 * t);
+    Librarian --&gt;|Book Issue / Return, Catalog Updates| System
+    System --&gt;|Member Details, Transaction Reports| Librarian
 
-f1=6
-t1=0:1/f1:1
+    Admin --&gt;|User / Library Management| System
+    System --&gt;|Reports, System Status| Admin</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code1',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code1')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 3 — DFD Level 1</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code2" spellcheck="false">flowchart LR
+    Member[Member]
+    Librarian[Librarian]
+    Admin[Administrator]
 
-y1= sin(2*pi*f0*t1)
+    P1((1.0&lt;br/&gt;Authentication))
+    P2((2.0&lt;br/&gt;Book Catalog Management))
+    P3((3.0&lt;br/&gt;Search &amp; Availability))
+    P4((4.0&lt;br/&gt;Issue &amp; Return Management))
+    P5((5.0&lt;br/&gt;Fine &amp; Notification Management))
+    P6((6.0&lt;br/&gt;Reporting))
+    P7((7.0&lt;br/&gt;User Management))
 
+    D1[(D1 User Database)]
+    D2[(D2 Book Catalog)]
+    D3[(D3 Issue / Return Records)]
+    D4[(D4 Fine Database)]
+    D5[(D5 Audit Log)]
 
-f2=10
-t2=0:1/f2   :1
+    Member --&gt;|Login Credentials| P1
+    P1 --&gt;|Authentication Result| Member
+    P1 &lt;--&gt; D1
 
-y2= sin(2*pi*f0*t2)
+    Librarian --&gt;|Book Details / Catalog Updates| P2
+    P2 &lt;--&gt; D2
 
+    Member --&gt;|Book Search Request| P3
+    P3 &lt;--&gt; D2
+    P3 --&gt;|Book Details &amp; Availability| Member
 
-f3=20
-t3=0:1/f3:1
+    Member --&gt;|Borrow / Return Request| P4
+    Librarian --&gt;|Issue / Return Transaction| P4
+    P4 &lt;--&gt; D3
+    P4 --&gt;|Transaction Confirmation| Member
+    P4 --&gt;|Transaction Details| Librarian
+    P4 --&gt; D5
 
-y3= sin(2*pi*f0*t3)
+    P4 --&gt;|Overdue / Fine Event| P5
+    P5 &lt;--&gt; D4
+    P5 --&gt;|Fine / Due Date Notification| Member
 
+    Librarian --&gt;|Report Request| P6
+    Admin --&gt;|Report Request| P6
+    P6 --&gt;|Reports| Librarian
+    P6 --&gt;|Reports| Admin
+    P6 --&gt; D2
+    P6 --&gt; D3
+    P6 --&gt; D4
 
-subplot(4, 1, 1);
-plot(t1, y1); hold on;
-stem(t1, y1, 'r', 'filled');
-title('Sine Wave at 6 Hz');
-xlabel('Time (s)'); ylabel('Amplitude');
-grid on; hold off;
+    Admin --&gt;|User Data| P7
+    P7 &lt;--&gt; D1
+    P7 --&gt; D5</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code2',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code2')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 5 — UML Use Case Diagram</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code3" spellcheck="false">flowchart LR
+    Member[Member]
+    Librarian[Librarian]
+    Admin[Administrator]
 
-subplot(4, 1, 2);
-plot(t2, y2); hold on;
-stem(t2, y2, 'r', 'filled');
-title('Sine Wave at 10 Hz');
-xlabel('Time (s)'); ylabel('Amplitude');
-grid on; hold off;
-
-subplot(4, 1, 3);
-plot(t3, y3); hold on;
-stem(t3, y3, 'r', 'filled');
-title('Sine Wave at 20 Hz');
-xlabel('Time (s)'); ylabel('Amplitude');
-grid on; hold off;
-
-subplot(4, 1, 4);
-plot(t, y); hold on;
-
-title('Original');
-xlabel('Time (s)'); ylabel('Amplitude');
-grid on; hold off;
-<button onclick="copyCode('code1', this)">Copy</button>
-</div>
-
-<!-- EXP 2 -->
-<h2>Experiment 2: Linear Convolution</h2>
-<div class="code-box" id="code2">
-
-clc;
-clear;
-close all;
-x = [1 2 3 4]; % Input signal x(n)
-h = [1 1 1]; % Impulse response h(n)
-Nx = length(x);
-Nh = length(h);
-Ny = Nx + Nh - 1;
-y_manual = zeros(1, Ny);
-for n = 1:Ny
-for k = 1:Nx
-if (n - k + 1 > 0) && (n - k + 1 <= Nh)
-y_manual(n) = y_manual(n) + x(k) * h(n - k + 1);
-end
-end
-end
-y_builtin = conv(x, h);
-disp('Manual Convolution Output:');
-disp(y_manual);
-disp('MATLAB conv() Output:');
-disp(y_builtin);
-% Plot signals
-n_x = 0:Nx-1;
-n_h = 0:Nh-1;
-n_y = 0:Ny-1;
-figure;
-subplot(3,1,1);
-stem(n_x, x, 'filled');
-title('Input Signal x(n)');
-xlabel('n'); ylabel('Amplitude');
-grid on;
-subplot(3,1,2);
-stem(n_h, h, 'filled');
-title('Impulse Response h(n)');
-xlabel('n'); ylabel('Amplitude');
-grid on;
-subplot(3,1,3);
-stem(n_y, y_builtin, 'filled');
-title('Output Signal y(n) = x(n) * h(n)');
-xlabel('n'); ylabel('Amplitude');
-grid on;
-<button onclick="copyCode('code2', this)">Copy</button>
-</div>
-
-<!-- EXP 3 -->
-<h2>Experiment 3: DFT and IDFT</h2>
-<div class="code-box" id="code3">
-clc
-xn=[1,2,3,4]
-N=length(xn)
-k=0:N-1
-Xk=zeros(1,N)
-for k=0:N-1
-for n=0:N-1
-Xk(k+1)=Xk(k+1)+(xn(n+1)*exp(-1j*2*pi*k*n/N))
-end
-end
-disp(Xk)
-ixn=zeros(1,N)
-for n=0:N-1
-for k=0:N-1
-ixn(n+1) = ixn(n+1) + (Xk(k+1) * exp(1j*2*pi*k*n/N))/N;
-end
-end
-disp(ixn)
-<button onclick="copyCode('code3', this)">Copy</button>
-</div>
-
-<!-- EXP 4 -->
-<h2>Experiment 4: Image Processing</h2>
-<div class="code-box" id="code4">
-clc;
-close all;
-clear variables;
-A = imread('meow.jpg');
-figure;
-subplot(2,4,1);
-imshow(A);
-title('Billi (RGB)');
-subplot(2,4,2);
-grayA = rgb2gray(A);
-imshow(grayA);
-title('Grayscale Billi');
-subplot(2,4,3);
-HSV = rgb2hsv(A);
-hueColor = cat(3, HSV(:,:,1), ones(size(HSV,1),size(HSV,2)), ones(size(HSV,1),size(HSV,2)));
-imshow(hsv2rgb(hueColor));
-title('Hue (HSV)');
-% Convert HSV back to RGB and display
-subplot(2,4,4);
-rgbA = hsv2rgb(HSV);
-imshow(rgbA);
-title('Back to RGB Billi');
-resizedA=imresize(rgbA,0.7);
-subplot(2,4,5);
-imshow(resizedA);
-title('Resized Billi (70%)');
-rotatedA=imrotate(resizedA,65);
-subplot(2,4,6);
-imshow(rotatedA);
-title('Rotated Billi (65 degrees)')<button onclick="copyCode('code4', this)">Copy</button>
-</div>
-
-<!-- EXP 5 -->
-<h2>Experiment 5: DFT vs DCT</h2>
-<div class="code-box" id="code5">
-clc;
-clear;
-close all;
-% Read Image
-img = imread('cameraman.tif');
-img = im2double(img);
-figure;
-imshow(img);
-title('Original Image');
-%% ----------- DFT -----------
-F = fft2(img);
-F_shift = fftshift(F);
-magnitude_spectrum = log(1 + abs(F_shift));
-figure;
-imshow(magnitude_spectrum,[]);
-title('DFT Magnitude Spectrum');
-% Inverse DFT
-img_dft_recon = real(ifft2(F));
-figure;
-imshow(img_dft_recon);
-title('Reconstructed Image using IDFT');
-%% ----------- DCT -----------
-C = dct2(img);
-figure;
-imshow(log(1+abs(C)),[]);
-title('DCT Coefficients');
-% Inverse DCT
-img_dct_recon = idct2(C);
-figure;
-imshow(img_dct_recon);
-title('Reconstructed Image using IDCT');
-%% Energy Comparison
-dft_energy = sum(abs(F(:)).^2);
-dct_energy = sum(abs(C(:)).^2);
-disp(['Total DFT Energy: ', num2str(dft_energy)]);
-disp(['Total DCT Energy: ', num2str(dct_energy)]);<button onclick="copyCode('code5', this)">Copy</button>
-</div>
-
-<!-- EXP 6 -->
-<h2>Experiment 6: Histogram Processing</h2>
-<div class="code-box" id="code6">
-clc;
-clear;
-close all;
-
-% Read the input image
-img = imread('cameraman.tif');
-
-% Convert to grayscale if needed
-if size(img,3)==3
-img = rgb2gray(img);
-end
-
-% Histogram Equalization
-eq_img = histeq(img);
-
-% Read reference image for histogram specification
-ref = imread('pout.tif');
-
-if size(ref,3)==3
-ref = rgb2gray(ref);
-end
-
-% Histogram Specification (Matching)
-spec_img = imhistmatch(img, ref);
-
-% Display Images
-figure;
-
-subplot(3,2,1)
-imshow(img)
-title('Original Image')
-
-subplot(3,2,2)
-imhist(img)
-title('Histogram of Original Image')
-
-subplot(3,2,3)
-imshow(eq_img)
-title('Histogram Equalized Image')
-
-subplot(3,2,4)
-imhist(eq_img)
-title('Histogram after Equalization')
-
-subplot(3,2,5)
-imshow(spec_img)
-title('Histogram Specified Image')
-
-subplot(3,2,6)
-imhist(spec_img)
-title('Histogram after Specification')
-<button onclick="copyCode('code6', this)">Copy</button>
-</div>
-
-<!-- EXP 7A -->
-<h2>Experiment 7A: Image Smoothing with Noise</h2>
-<div class="code-box" id="code7a">
-clear all;
-close all;
-I=imread('cameraman.tif');
-k=imnoise(I,'gaussian',0,0.01);
-B=1/9*[1 1 1;1 1 1 ; 1 1 1];
-[X,Y]=size(k);
-for i=2:1:X-2
-    for j=2:1:Y-2
-     g(i,j)=(k(i-1,j-1)*B(1,1)+k(i-1,j)*B(1,2)+k(i-1,j+1)*B(1,3)+k(i,j- 1)*B(2,1)+k(i,j)*B(2,2)+k(i,j+1)*B(2,3)+k(i+1,j-1)*B(3,1)+k(i+1,j)*B(3,2)+k(i+1,j+1)*B(3,3));
+    subgraph LMS["Library Management System"]
+        UC1([Login / Authenticate])
+        UC2([Search Books])
+        UC3([View Book Details])
+        UC4([Borrow Book])
+        UC5([Return Book])
+        UC6([Renew Book])
+        UC7([View Borrowing History])
+        UC8([Add / Edit Book])
+        UC9([Issue / Return Book])
+        UC10([Manage Fines])
+        UC11([Manage Members])
+        UC12([Generate Reports])
+        UC13([Manage Users])
     end
-end
- 
-w1=fspecial('average',[3,3]);
-y1=imfilter(k,w1);
 
-subplot(3,3,1),imshow(I),title('Original Image')
-subplot(3,3,2),imshow(y1),title('Averaging Image')
-subplot(3,3,3),imshow(k),title('Noisy Image')
-subplot(3,3,4),imshow(g),title(' Smoothed Image')
-subplot(3,3,7),imhist(g),title('Histogram of Smoothed Image')
-subplot(3,3,6),imhist(k),title('Histogram of Noisy Image')
-subplot(3,3,5),imhist(I),title('Histogram of Original Image')
+    Member --- UC1
+    Member --- UC2
+    Member --- UC3
+    Member --- UC4
+    Member --- UC5
+    Member --- UC6
+    Member --- UC7
 
-<button onclick="copyCode('code7a', this)">Copy</button>
-</div>
+    Librarian --- UC1
+    Librarian --- UC2
+    Librarian --- UC8
+    Librarian --- UC9
+    Librarian --- UC10
+    Librarian --- UC12
 
-<!-- EXP 7B -->
-<h2>Experiment 7B: Image Sharpening Techniques</h2>
-<div class="code-box" id="code7b">
-clear all;
-close all;
+    Admin --- UC1
+    Admin --- UC11
+    Admin --- UC12
+    Admin --- UC13
 
-I = imread('cameraman.tif');
+    UC4 -. "include" .-&gt; UC3
+    UC6 -. "extend" .-&gt; UC4
+    UC10 -. "include" .-&gt; UC5</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code3',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code3')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 5 — UML Class Diagram</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code4" spellcheck="false">classDiagram
+class User {
+    +userId
+    +name
+    +email
+    +passwordHash
+    +role
+    +login()
+    +logout()
+}
 
-[x,y] = size(I);
+class Member {
+    +membershipId
+    +searchBook()
+    +borrowBook()
+    +returnBook()
+    +renewBook()
+    +viewHistory()
+}
 
-subplot(3,3,1);
-imshow(I);
-title('Original Image');
+class Librarian {
+    +addBook()
+    +editBook()
+    +issueBook()
+    +receiveBook()
+    +manageFine()
+}
 
-% Unsharp Filter
-T_1 = fspecial('unsharp');
-R_u = imfilter(I, T_1, 'replicate');
-subplot(3,3,2);
-imshow(R_u);
-title('Unsharp Filter');
+class Administrator {
+    +manageUsers()
+    +manageMembers()
+    +generateReports()
+}
 
-% Sobel Filter
-T_s = fspecial('sobel');
-R_s = imfilter(I, T_s);
-subplot(3,3,3);
-imshow(R_s);
-title('Sobel Filter');
+class Book {
+    +bookId
+    +title
+    +author
+    +isbn
+    +category
+    +status
+    +addBook()
+    +updateBook()
+    +checkAvailability()
+}
 
-% Prewitt Filter
-T_p = fspecial('prewitt');
-R_p = imfilter(I, T_p);
-subplot(3,3,4);
-imshow(R_p);
-title('Prewitt Filter');
+class Library {
+    +libraryId
+    +name
+    +location
+    +searchCatalog()
+}
 
-% Laplacian Filter
-T_l = fspecial('laplacian');
-R_l = imfilter(I, T_l);
-subplot(3,3,5);
-imshow(R_l);
-title('Laplacian Filter');
+class BorrowTransaction {
+    +transactionId
+    +issueDate
+    +dueDate
+    +returnDate
+    +status
+    +issueBook()
+    +returnBook()
+}
 
-% Gaussian Filter
-T_g = fspecial('gaussian',[3,3],0.2);
-R_g = imfilter(I, T_g);
-subplot(3,3,6);
-imshow(R_g);
-title('Gaussian Filter');
+class Fine {
+    +fineId
+    +amount
+    +status
+    +calculateFine()
+    +payFine()
+}
 
-<button onclick="copyCode('code7b', this)">Copy</button>
-</div>
+class Notification {
+    +notificationId
+    +message
+    +timestamp
+    +send()
+}
 
-<!-- EXP 8 -->
-<h2>Experiment 8: Edge Detection</h2>
-<div class="code-box" id="code8">
-clc;
-clear all;
-close all;
-i = imread('circuit.tif');
-a = edge(i,'sobel');
-b = edge(i,'sobel','horizontal');
-c = edge(i,'sobel','vertical');
-d = edge(i,'prewitt');
-e = edge(i,'roberts');
-f = edge(i,'zerocross');
-g = edge(i,'log');
-h = edge(i,'prewitt','horizontal');
-p = edge(i,'prewitt','vertical');
-j = edge(i,'roberts');
-k = edge(i,'roberts');
-l = edge(i,'zerocross');
-m = edge(i,'zerocross');
-n = edge(i,'log');
-o = edge(i,'log');
-subplot(4,4,1);imshow(i);title('original image');
-subplot(4,4,2);imshow(a);title('sobel image');
-subplot(4,4,3);imshow(b);title('sobel horizontal image');
-subplot(4,4,4);imshow(c);title('sobel vertical image');
-subplot(4,4,5);imshow(d);title('prewitt image');
-subplot(4,4,6);imshow(e);title('roberts image');
-subplot(4,4,7);imshow(f);title('zerocross image');
-subplot(4,4,8);imshow(g);title('laplace of gaussian image');
-subplot(4,4,9);imshow(h);title('prewitt horizontal image');
-subplot(4,4,10);imshow(p);title('prewitt vertical image');
-subplot(4,4,11);imshow(j);title('roberts image');
-subplot(4,4,12);imshow(k);title('roberts image');
-subplot(4,4,13);imshow(l);title('zerocross image');
-subplot(4,4,14);imshow(m);title('zerocross image');
-subplot(4,4,15);imshow(n);title('log image');
-subplot(4,4,16);imshow(o);title('log image');
-<button onclick="copyCode('code8', this)">Copy</button>
-</div>
+class AuditLog {
+    +logId
+    +action
+    +timestamp
+    +recordAction()
+}
 
+User &lt;|-- Member
+User &lt;|-- Librarian
+User &lt;|-- Administrator
+
+Library "1" --&gt; "*" Book : contains
+Member "1" --&gt; "*" BorrowTransaction : makes
+Book "1" --&gt; "*" BorrowTransaction : involved in
+BorrowTransaction "1" --&gt; "0..1" Fine : generates
+Member "1" --&gt; "*" Fine : receives
+Librarian "1" --&gt; "*" BorrowTransaction : manages
+Librarian "1" --&gt; "*" Book : manages
+BorrowTransaction --&gt; Notification : triggers
+User --&gt; AuditLog : generates</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code4',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code4')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 6 — Activity Diagram</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code5" spellcheck="false">flowchart TD
+    Start((Start))
+
+    A[Member logs in]
+    B[Search for book]
+    C[View book details and availability]
+    D{Book Available?}
+
+    E[Request / Borrow Book]
+    F[Librarian verifies membership]
+    G[Issue Book and record due date]
+
+    H[Book unavailable]
+    I[Join / update waiting list]
+
+    J[Member returns book]
+    K{Returned after due date?}
+    L[Calculate Fine]
+    M[Record Return]
+    N[Send Due Date / Fine Notification]
+
+    End((End))
+
+    Start --&gt; A
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+
+    D --&gt;|Yes| E
+    E --&gt; F
+    F --&gt; G
+    G --&gt; N
+
+    D --&gt;|No| H
+    H --&gt; I
+    I --&gt; End
+
+    G --&gt; J
+    J --&gt; K
+    K --&gt;|Yes| L
+    K --&gt;|No| M
+    L --&gt; M
+    M --&gt; N
+    N --&gt; End</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code5',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code5')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 7 — Sequence Diagram</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code6" spellcheck="false">sequenceDiagram
+    actor Member
+    participant UI as LibraryUI
+    participant Catalog as BookCatalog
+    participant Transaction as BorrowTransaction
+    participant NotificationService
+
+    Member-&gt;&gt;UI: searchBook(title/author)
+    UI-&gt;&gt;Catalog: findBook(query)
+    Catalog--&gt;&gt;UI: bookDetails + availability
+    UI--&gt;&gt;Member: displayBookDetails()
+
+    Member-&gt;&gt;UI: borrowBook(bookId)
+    UI-&gt;&gt;Catalog: checkAvailability(bookId)
+
+    alt Book available
+        UI-&gt;&gt;Transaction: createTransaction(memberId, bookId)
+        Transaction-&gt;&gt;Transaction: issueBook()
+        Transaction--&gt;&gt;UI: transactionId + dueDate
+
+        Transaction-&gt;&gt;NotificationService: sendDueDateNotification()
+        NotificationService--&gt;&gt;Member: dueDateConfirmation()
+        UI--&gt;&gt;Member: displayBorrowConfirmation()
+    else Book unavailable
+        UI--&gt;&gt;Member: Show unavailable / waiting-list option
+    end</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code6',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code6')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card">
+      <div class="card-head">
+        <h2>Experiment 7 — Collaboration Diagram</h2>
+        <span class="badge">Copy Mermaid Code</span>
+      </div>
+      <div class="code-wrap">
+        <textarea id="code7" spellcheck="false">flowchart LR
+    Member["Member"]
+    UI["LibraryUI"]
+    Catalog["BookCatalog"]
+    Transaction["BorrowTransaction"]
+    Notification["NotificationService"]
+
+    Member --&gt;|"1: searchBook(title/author)"| UI
+    UI --&gt;|"2: findBook(query)"| Catalog
+    Catalog --&gt;|"3: bookDetails + availability [return]"| UI
+
+    Member --&gt;|"4: borrowBook(bookId)"| UI
+    UI --&gt;|"5: checkAvailability(bookId)"| Catalog
+    UI --&gt;|"6: createTransaction(memberId, bookId)"| Transaction
+    Transaction --&gt;|"7: transactionId + dueDate [return]"| UI
+    Transaction --&gt;|"8: sendDueDateNotification()"| Notification
+    Notification --&gt;|"9: Due date confirmation"| Member</textarea>
+        <div class="actions">
+          <button onclick="copyCode('code7',this)">Copy Code</button>
+          <button class="secondary" onclick="selectCode('code7')">Select All</button>
+        </div>
+      </div>
+    </section>
+    
+</main>
+<section class="card">
+      <div class="card-head">
+        <h2>Library Management System — Lab Files</h2>
+        <span class="badge">External Resources</span>
+      </div>
+      <div class="code-wrap">
+        <p style="margin:0 0 14px;color:var(--muted);line-height:1.6">
+          Access the complete SE Lab files, diagrams, documentation, SRS, Gantt chart,
+          and related Library Management System materials.
+        </p>
+        <a href="https://gofile.io/d/3lnsLEEB" target="_blank" rel="noopener noreferrer"
+           style="display:inline-block;text-decoration:none;border-radius:9px;padding:11px 17px;
+                  font-weight:700;background:var(--accent);color:white;">
+          Open LMS Lab Files ↗
+        </a>
+      </div>
+    </section>
+
+    <footer>SE Lab • Library Management System • Ready-to-copy diagram codes</footer>
 <script>
-function copyCode(id, btn){
-const text=document.getElementById(id).innerText.replace("Copy","");
-navigator.clipboard.writeText(text);
-btn.innerText="Copied!";
-setTimeout(()=>btn.innerText="Copy",1500);
+async function copyCode(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.value;
+  const original = btn.textContent;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      temp.style.position = 'fixed';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.focus();
+      temp.select();
+      temp.setSelectionRange(0, temp.value.length);
+
+      if (!document.execCommand('copy')) {
+        throw new Error('Copy failed');
+      }
+      document.body.removeChild(temp);
+    }
+
+    btn.textContent = 'Copied ✓';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.disabled = false;
+    }, 1200);
+
+  } catch (error) {
+    el.focus();
+    el.select();
+    el.setSelectionRange(0, el.value.length);
+    btn.textContent = 'Press Ctrl+C';
+
+    setTimeout(() => {
+      btn.textContent = original;
+    }, 1800);
+  }
+}
+
+function selectCode(id) {
+  const el = document.getElementById(id);
+  el.focus();
+  el.select();
+  el.setSelectionRange(0, el.value.length);
 }
 </script>
-
 </body>
 </html>
